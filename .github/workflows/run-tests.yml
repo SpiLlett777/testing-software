@@ -1,0 +1,45 @@
+name: Python and Selenium tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  local-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+      - run: python -m pip install -r requirements-dev.txt
+      - name: Unit and UI tests (fixture starts local server)
+        run: python -m pytest tests/unit tests/ui --run-ui --junitxml=artifacts/ci/results.xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: artifacts/
+
+  public-api:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: python -m pip install -r requirements-dev.txt
+      - run: python -m pytest tests/api --run-api --junitxml=artifacts/ci/api.xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-api-results
+          path: artifacts/

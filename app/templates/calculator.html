@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Калькулятор{% endblock %}
+
+{% block content %}
+<p class="eyebrow">Модуль 01 / Лабораторные работы №1 и №6</p>
+<h1>Калькулятор</h1>
+<p class="lead">Калькулятор для двух чисел с четырьмя базовыми арифметическими операциями.
+    Все вычисления производятся на стороне сервера.</p>
+
+<div class="two-col">
+    <section class="panel">
+        <h2>Вычисление</h2>
+
+        <form id="calculator-form" novalidate>
+            <label for="number-a">Первое число</label>
+            <input id="number-a" name="a" inputmode="decimal" placeholder="Например, 12.5" autocomplete="off">
+
+            <label for="operation">Операция</label>
+            <select id="operation" name="operation">
+                <option value="add">+ Сложение</option>
+                <option value="subtract">− Вычитание</option>
+                <option value="multiply">× Умножение</option>
+                <option value="divide">÷ Деление</option>
+            </select>
+
+            <label for="number-b">Второе число</label>
+            <input id="number-b" name="b" inputmode="decimal" placeholder="Например, 2" autocomplete="off">
+
+            <div class="actions">
+                <button id="calculate" type="submit">Вычислить</button>
+                <button id="clear" type="button" class="secondary">Очистить</button>
+            </div>
+        </form>
+
+        <div class="result" aria-live="polite">
+            <span>Результат</span>
+            <output id="result">—</output>
+        </div>
+
+        <p id="calculator-error" class="error" role="alert"></p>
+    </section>
+
+    <aside class="notes">
+        <span class="tag">Памятка тестировщика</span>
+        <h2>Сценарии для проверки</h2>
+        <p>Для базового тестирования функционала рекомендуется проверить корректность работы с положительными,
+            отрицательными числами, дробями и нулем.</p>
+
+        <ul>
+            <li>В качестве разделителя дроби можно использовать как точку, так и запятую.</li>
+            <li>Допустимый диапазон ввода чисел составляет от −10¹² до 10¹².</li>
+            <li>Отображаемый результат содержит до 12 значащих цифр.</li>
+            <li>При очистке формы происходит сброс введенных чисел, выбранной операции и полученного результата.</li>
+        </ul>
+    </aside>
+</div>
+{% endblock %}

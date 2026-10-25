@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Учебный стенд для лабораторных работ по тестированию ПО">
+    <title>{% block title %}Практикум{% endblock %} · Тестирование ПО</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script defer src="{{ url_for('static', filename='app.js') }}"></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Перейти к основному контенту</a>
+
+<aside class="sidebar">
+    <a class="brand" href="/">ТПО<span>Практикум, модуль 01</span></a>
+    <p class="nav-label">РАБОЧЕЕ ПРОСТРАНСТВО</p>
+
+    <nav aria-label="Основная навигация">
+        {% for key, path, label, number in [
+        ('home', '/', 'Обзор', '00'),
+        ('calculator', '/calculator', 'Калькулятор', '01'),
+        ('todo', '/todo', 'Список задач', '02'),
+        ('login', '/login', 'Вход в систему', '03'),
+        ('contact', '/contact', 'Контактная форма', '04')
+        ] %}
+        <a href="{{ path }}" {% if active== key %}aria-current="page" {% endif %}>
+            <span>{{ number }}</span>{{ label }}
+        </a>
+        {% endfor %}
+    </nav>
+
+    <div class="sidebar-foot">
+        Учебный стенд<br>
+        <strong>Работает локально</strong>
+    </div>
+</aside>
+
+<div class="workspace">
+    <header>
+        <span>Тестирование ПО / Software testing</span>
+        <span class="badge">I hate Flask</span>
+    </header>
+
+    <main id="main">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        Полный цикл тестирования
+    </footer>
+</div>
+
+</body>
+</html>

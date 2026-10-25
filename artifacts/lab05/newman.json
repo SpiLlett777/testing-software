@@ -1,0 +1,2347 @@
+{
+  "collection": {
+    "item": [
+      {
+        "id": "773c3c7c-1127-4508-94b9-9b34e3cd9a8c",
+        "name": "GET — получить пользователя",
+        "request": {
+          "url": {
+            "path": [
+              "users",
+              "1"
+            ],
+            "host": [
+              "{{base_url}}"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "method": "GET"
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "id": "7377a477-0caf-4d39-b7b7-d1c06fbfe5fc",
+              "type": "text/javascript",
+              "exec": [
+                "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                "const data = pm.response.json();",
+                "pm.test('User structure', () => { pm.expect(data).to.be.an('object'); pm.expect(data.name).to.be.a('string').and.not.empty; pm.expect(data.email).to.be.a('string').and.include('@'); pm.expect(data.address).to.be.an('object'); });",
+                "pm.test('Requested user id', () => pm.expect(data.id).to.eql(1));"
+              ],
+              "_lastExecutionId": "92ae848f-0d8d-4824-8498-fe3e98c3eb97"
+            }
+          }
+        ]
+      },
+      {
+        "id": "72211056-79dc-4353-8d55-212c77bd3add",
+        "name": "POST — создать пользователя",
+        "request": {
+          "url": {
+            "path": [
+              "users"
+            ],
+            "host": [
+              "{{base_url}}"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"name\": \"Test Student\",\n  \"username\": \"student\",\n  \"email\": \"student@example.com\"\n}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "id": "4af8f2be-ae0d-4acf-acfc-0c2687e7751c",
+              "type": "text/javascript",
+              "exec": [
+                "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                "const data = pm.response.json();",
+                "pm.test('Created user structure', () => { pm.expect(data).to.be.an('object'); pm.expect(Number.isInteger(data.id)).to.eql(true); });",
+                "pm.test('Created user values', () => { pm.expect(data.name).to.eql('Test Student'); pm.expect(data.username).to.eql('student'); pm.expect(data.email).to.eql('student@example.com'); });"
+              ],
+              "_lastExecutionId": "e59c0327-67fa-4082-82e9-0733ea9a7ebb"
+            }
+          }
+        ]
+      },
+      {
+        "id": "23575388-2080-4fc0-bb1b-8c3a235bd562",
+        "name": "PUT — обновить пользователя",
+        "request": {
+          "url": {
+            "path": [
+              "users",
+              "1"
+            ],
+            "host": [
+              "{{base_url}}"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "method": "PUT",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"name\": \"Updated Student\",\n  \"username\": \"student\",\n  \"email\": \"student@example.com\"\n}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "id": "6f49d25d-488b-40f9-a155-e6d0bd5b3a5e",
+              "type": "text/javascript",
+              "exec": [
+                "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                "const data = pm.response.json();",
+                "pm.test('Updated user structure', () => { pm.expect(data).to.be.an('object'); pm.expect(data.id).to.be.a('number'); pm.expect(data.name).to.be.a('string'); pm.expect(data.username).to.be.a('string'); pm.expect(data.email).to.be.a('string'); });",
+                "pm.test('Updated user values', () => { pm.expect(data.id).to.eql(1); pm.expect(data.name).to.eql('Updated Student'); pm.expect(data.username).to.eql('student'); pm.expect(data.email).to.eql('student@example.com'); });"
+              ],
+              "_lastExecutionId": "544ac003-0ab5-4d39-9b38-31d1ce5bea67"
+            }
+          }
+        ]
+      }
+    ],
+    "event": [],
+    "variable": [],
+    "info": {
+      "_postman_id": "18b6bdaa-e462-4048-bf8e-ab52dd935a0f",
+      "name": "ЛР 5 — REST API",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+      "description": {
+        "content": "GET, POST, PUT и проверки ответов. Запись в JSONPlaceholder имитируется.",
+        "type": "text/plain"
+      }
+    }
+  },
+  "environment": {
+    "_": {
+      "postman_variable_scope": "environment"
+    },
+    "id": "7eb2cc73-f852-43c0-be8b-d6464155fe68",
+    "name": "ЛР 5 — JSONPlaceholder",
+    "values": [
+      {
+        "type": "any",
+        "value": "https://jsonplaceholder.typicode.com",
+        "key": "base_url"
+      }
+    ]
+  },
+  "globals": {
+    "id": "f0f8c6bc-d1bc-4739-9925-0abf58b320e3",
+    "values": []
+  },
+  "run": {
+    "stats": {
+      "iterations": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "items": {
+        "total": 3,
+        "pending": 0,
+        "failed": 0
+      },
+      "scripts": {
+        "total": 3,
+        "pending": 0,
+        "failed": 3
+      },
+      "prerequests": {
+        "total": 3,
+        "pending": 0,
+        "failed": 0
+      },
+      "requests": {
+        "total": 3,
+        "pending": 0,
+        "failed": 0
+      },
+      "tests": {
+        "total": 3,
+        "pending": 0,
+        "failed": 0
+      },
+      "assertions": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      },
+      "testScripts": {
+        "total": 3,
+        "pending": 0,
+        "failed": 3
+      },
+      "prerequestScripts": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      }
+    },
+    "timings": {
+      "responseAverage": 256,
+      "responseMin": 164,
+      "responseMax": 315,
+      "responseSd": 65.91408549518583,
+      "dnsAverage": 0,
+      "dnsMin": 0,
+      "dnsMax": 0,
+      "dnsSd": 0,
+      "firstByteAverage": 0,
+      "firstByteMin": 0,
+      "firstByteMax": 0,
+      "firstByteSd": 0,
+      "started": 1789748490618,
+      "completed": 1789748491670
+    },
+    "executions": [
+      {
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 3,
+          "cycles": 1,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "fafa1822-9618-404b-89a2-ebe19334dce5",
+          "httpRequestId": "ac5d0c36-eb88-4c6d-853e-f56dfc3b31b0"
+        },
+        "item": {
+          "id": "773c3c7c-1127-4508-94b9-9b34e3cd9a8c",
+          "name": "GET — получить пользователя",
+          "request": {
+            "url": {
+              "path": [
+                "users",
+                "1"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "7377a477-0caf-4d39-b7b7-d1c06fbfe5fc",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const data = pm.response.json();",
+                  "pm.test('User structure', () => { pm.expect(data).to.be.an('object'); pm.expect(data.name).to.be.a('string').and.not.empty; pm.expect(data.email).to.be.a('string').and.include('@'); pm.expect(data.address).to.be.an('object'); });",
+                  "pm.test('Requested user id', () => pm.expect(data.id).to.eql(1));"
+                ],
+                "_lastExecutionId": "92ae848f-0d8d-4824-8498-fe3e98c3eb97"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "https",
+            "path": [
+              "users",
+              "1"
+            ],
+            "host": [
+              "jsonplaceholder",
+              "typicode",
+              "com"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "d6492432-01e4-42cf-a39c-fb22e2adfbc5",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "jsonplaceholder.typicode.com",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "3883c37f-4992-4824-a462-39c8e32eeb50",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Date",
+              "value": "Fri, 18 Sep 2026 16:21:30 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "access-control-allow-credentials",
+              "value": "true"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "max-age=43200"
+            },
+            {
+              "key": "etag",
+              "value": "W/\"1fd-+2Y3G3w049iSZtw5t1mzSnunngE\""
+            },
+            {
+              "key": "expires",
+              "value": "-1"
+            },
+            {
+              "key": "nel",
+              "value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+            },
+            {
+              "key": "pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "report-to",
+              "value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=LwUaBghmJ6ed0EC2YuHgqdfUink2Elg8Dy9iUSBLYFY%3D\\u0026sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d\\u0026ts=1789715181\"}],\"max_age\":3600}"
+            },
+            {
+              "key": "reporting-endpoints",
+              "value": "heroku-nel=\"https://nel.heroku.com/reports?s=LwUaBghmJ6ed0EC2YuHgqdfUink2Elg8Dy9iUSBLYFY%3D&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&ts=1789715181\""
+            },
+            {
+              "key": "Server",
+              "value": "cloudflare"
+            },
+            {
+              "key": "vary",
+              "value": "Origin, Accept-Encoding"
+            },
+            {
+              "key": "via",
+              "value": "2.0 heroku-router"
+            },
+            {
+              "key": "x-content-type-options",
+              "value": "nosniff"
+            },
+            {
+              "key": "x-powered-by",
+              "value": "Express"
+            },
+            {
+              "key": "x-ratelimit-limit",
+              "value": "1000"
+            },
+            {
+              "key": "x-ratelimit-remaining",
+              "value": "814"
+            },
+            {
+              "key": "x-ratelimit-reset",
+              "value": "1789715230"
+            },
+            {
+              "key": "Age",
+              "value": "4488"
+            },
+            {
+              "key": "cf-cache-status",
+              "value": "HIT"
+            },
+            {
+              "key": "Content-Encoding",
+              "value": "br"
+            },
+            {
+              "key": "CF-RAY",
+              "value": "a3d1af200acdef39-LHR"
+            },
+            {
+              "key": "alt-svc",
+              "value": "h3=\":443\"; ma=86400"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              10,
+              32,
+              32,
+              34,
+              105,
+              100,
+              34,
+              58,
+              32,
+              49,
+              44,
+              10,
+              32,
+              32,
+              34,
+              110,
+              97,
+              109,
+              101,
+              34,
+              58,
+              32,
+              34,
+              76,
+              101,
+              97,
+              110,
+              110,
+              101,
+              32,
+              71,
+              114,
+              97,
+              104,
+              97,
+              109,
+              34,
+              44,
+              10,
+              32,
+              32,
+              34,
+              117,
+              115,
+              101,
+              114,
+              110,
+              97,
+              109,
+              101,
+              34,
+              58,
+              32,
+              34,
+              66,
+              114,
+              101,
+              116,
+              34,
+              44,
+              10,
+              32,
+              32,
+              34,
+              101,
+              109,
+              97,
+              105,
+              108,
+              34,
+              58,
+              32,
+              34,
+              83,
+              105,
+              110,
+              99,
+              101,
+              114,
+              101,
+              64,
+              97,
+              112,
+              114,
+              105,
+              108,
+              46,
+              98,
+              105,
+              122,
+              34,
+              44,
+              10,
+              32,
+              32,
+              34,
+              97,
+              100,
+              100,
+              114,
+              101,
+              115,
+              115,
+              34,
+              58,
+              32,
+              123,
+              10,
+              32,
+              32,
+              32,
+              32,
+              34,
+              115,
+              116,
+              114,
+              101,
+              101,
+              116,
+              34,
+              58,
+              32,
+              34,
+              75,
+              117,
+              108,
+              97,
+              115,
+              32,
+              76,
+              105,
+              103,
+              104,
+              116,
+              34,
+              44,
+              10,
+              32,
+              32,
+              32,
+              32,
+              34,
+              115,
+              117,
+              105,
+              116,
+              101,
+              34,
+              58,
+              32,
+              34,
+              65,
+              112,
+              116,
+              46,
+              32,
+              53,
+              53,
+              54,
+              34,
+              44,
+              10,
+              32,
+              32,
+              32,
+              32,
+              34,
+              99,
+              105,
+              116,
+              121,
+              34,
+              58,
+              32,
+              34,
+              71,
+              119,
+              101,
+              110,
+              98,
+              111,
+              114,
+              111,
+              117,
+              103,
+              104,
+              34,
+              44,
+              10,
+              32,
+              32,
+              32,
+              32,
+              34,
+              122,
+              105,
+              112,
+              99,
+              111,
+              100,
+              101,
+              34,
+              58,
+              32,
+              34,
+              57,
+              50,
+              57,
+              57,
+              56,
+              45,
+              51,
+              56,
+              55,
+              52,
+              34,
+              44,
+              10,
+              32,
+              32,
+              32,
+              32,
+              34,
+              103,
+              101,
+              111,
+              34,
+              58,
+              32,
+              123,
+              10,
+              32,
+              32,
+              32,
+              32,
+              32,
+              32,
+              34,
+              108,
+              97,
+              116,
+              34,
+              58,
+              32,
+              34,
+              45,
+              51,
+              55,
+              46,
+              51,
+              49,
+              53,
+              57,
+              34,
+              44,
+              10,
+              32,
+              32,
+              32,
+              32,
+              32,
+              32,
+              34,
+              108,
+              110,
+              103,
+              34,
+              58,
+              32,
+              34,
+              56,
+              49,
+              46,
+              49,
+              52,
+              57,
+              54,
+              34,
+              10,
+              32,
+              32,
+              32,
+              32,
+              125,
+              10,
+              32,
+              32,
+              125,
+              44,
+              10,
+              32,
+              32,
+              34,
+              112,
+              104,
+              111,
+              110,
+              101,
+              34,
+              58,
+              32,
+              34,
+              49,
+              45,
+              55,
+              55,
+              48,
+              45,
+              55,
+              51,
+              54,
+              45,
+              56,
+              48,
+              51,
+              49,
+              32,
+              120,
+              53,
+              54,
+              52,
+              52,
+              50,
+              34,
+              44,
+              10,
+              32,
+              32,
+              34,
+              119,
+              101,
+              98,
+              115,
+              105,
+              116,
+              101,
+              34,
+              58,
+              32,
+              34,
+              104,
+              105,
+              108,
+              100,
+              101,
+              103,
+              97,
+              114,
+              100,
+              46,
+              111,
+              114,
+              103,
+              34,
+              44,
+              10,
+              32,
+              32,
+              34,
+              99,
+              111,
+              109,
+              112,
+              97,
+              110,
+              121,
+              34,
+              58,
+              32,
+              123,
+              10,
+              32,
+              32,
+              32,
+              32,
+              34,
+              110,
+              97,
+              109,
+              101,
+              34,
+              58,
+              32,
+              34,
+              82,
+              111,
+              109,
+              97,
+              103,
+              117,
+              101,
+              114,
+              97,
+              45,
+              67,
+              114,
+              111,
+              110,
+              97,
+              34,
+              44,
+              10,
+              32,
+              32,
+              32,
+              32,
+              34,
+              99,
+              97,
+              116,
+              99,
+              104,
+              80,
+              104,
+              114,
+              97,
+              115,
+              101,
+              34,
+              58,
+              32,
+              34,
+              77,
+              117,
+              108,
+              116,
+              105,
+              45,
+              108,
+              97,
+              121,
+              101,
+              114,
+              101,
+              100,
+              32,
+              99,
+              108,
+              105,
+              101,
+              110,
+              116,
+              45,
+              115,
+              101,
+              114,
+              118,
+              101,
+              114,
+              32,
+              110,
+              101,
+              117,
+              114,
+              97,
+              108,
+              45,
+              110,
+              101,
+              116,
+              34,
+              44,
+              10,
+              32,
+              32,
+              32,
+              32,
+              34,
+              98,
+              115,
+              34,
+              58,
+              32,
+              34,
+              104,
+              97,
+              114,
+              110,
+              101,
+              115,
+              115,
+              32,
+              114,
+              101,
+              97,
+              108,
+              45,
+              116,
+              105,
+              109,
+              101,
+              32,
+              101,
+              45,
+              109,
+              97,
+              114,
+              107,
+              101,
+              116,
+              115,
+              34,
+              10,
+              32,
+              32,
+              125,
+              10,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 289,
+          "responseSize": 509
+        },
+        "id": "773c3c7c-1127-4508-94b9-9b34e3cd9a8c",
+        "testScript": [
+          {
+            "error": {
+              "type": "Error",
+              "name": "SyntaxError",
+              "message": "Identifier 'data' has already been declared",
+              "checksum": "36a30bff55cab1108d3140517a1e4348",
+              "id": "2a8c66f1-1237-4404-b8bb-746dd080d495",
+              "timestamp": 1789748490969,
+              "stacktrace": []
+            }
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "a5ff2f04-197a-4f0e-8b7e-354939e078fa",
+          "length": 3,
+          "cycles": 1,
+          "position": 1,
+          "iteration": 0,
+          "httpRequestId": "f3f41a14-becb-48d1-afec-db5af4894618"
+        },
+        "item": {
+          "id": "72211056-79dc-4353-8d55-212c77bd3add",
+          "name": "POST — создать пользователя",
+          "request": {
+            "url": {
+              "path": [
+                "users"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test Student\",\n  \"username\": \"student\",\n  \"email\": \"student@example.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "4af8f2be-ae0d-4acf-acfc-0c2687e7751c",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "const data = pm.response.json();",
+                  "pm.test('Created user structure', () => { pm.expect(data).to.be.an('object'); pm.expect(Number.isInteger(data.id)).to.eql(true); });",
+                  "pm.test('Created user values', () => { pm.expect(data.name).to.eql('Test Student'); pm.expect(data.username).to.eql('student'); pm.expect(data.email).to.eql('student@example.com'); });"
+                ],
+                "_lastExecutionId": "e59c0327-67fa-4082-82e9-0733ea9a7ebb"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "https",
+            "path": [
+              "users"
+            ],
+            "host": [
+              "jsonplaceholder",
+              "typicode",
+              "com"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "cc44b43a-9afa-4367-bf1e-c90118d86f0e",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "jsonplaceholder.typicode.com",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "87",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"name\": \"Test Student\",\n  \"username\": \"student\",\n  \"email\": \"student@example.com\"\n}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "2b45da8b-d74b-4eb3-b2d3-7162d1439bdb",
+          "status": "Created",
+          "code": 201,
+          "header": [
+            {
+              "key": "Date",
+              "value": "Fri, 18 Sep 2026 16:21:30 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "99"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "access-control-allow-credentials",
+              "value": "true"
+            },
+            {
+              "key": "access-control-expose-headers",
+              "value": "Location"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache"
+            },
+            {
+              "key": "etag",
+              "value": "W/\"63-U+TniGVmp7DCLv1n5iBB+GKpS0M\""
+            },
+            {
+              "key": "expires",
+              "value": "-1"
+            },
+            {
+              "key": "location",
+              "value": "https://jsonplaceholder.typicode.com/users/11"
+            },
+            {
+              "key": "nel",
+              "value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+            },
+            {
+              "key": "pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "report-to",
+              "value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=9aqt%2BL7t62kVgdKsyjdUHi3Pmv4JW4xuhWSyPMMsWpc%3D\\u0026sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d\\u0026ts=1789748490\"}],\"max_age\":3600}"
+            },
+            {
+              "key": "reporting-endpoints",
+              "value": "heroku-nel=\"https://nel.heroku.com/reports?s=9aqt%2BL7t62kVgdKsyjdUHi3Pmv4JW4xuhWSyPMMsWpc%3D&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&ts=1789748490\""
+            },
+            {
+              "key": "Server",
+              "value": "cloudflare"
+            },
+            {
+              "key": "vary",
+              "value": "Origin, X-HTTP-Method-Override, Accept-Encoding"
+            },
+            {
+              "key": "via",
+              "value": "2.0 heroku-router"
+            },
+            {
+              "key": "x-content-type-options",
+              "value": "nosniff"
+            },
+            {
+              "key": "x-powered-by",
+              "value": "Express"
+            },
+            {
+              "key": "x-ratelimit-limit",
+              "value": "1000"
+            },
+            {
+              "key": "x-ratelimit-remaining",
+              "value": "999"
+            },
+            {
+              "key": "x-ratelimit-reset",
+              "value": "1789748531"
+            },
+            {
+              "key": "cf-cache-status",
+              "value": "DYNAMIC"
+            },
+            {
+              "key": "CF-RAY",
+              "value": "a3d1af215f4fef39-LHR"
+            },
+            {
+              "key": "alt-svc",
+              "value": "h3=\":443\"; ma=86400"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              10,
+              32,
+              32,
+              34,
+              110,
+              97,
+              109,
+              101,
+              34,
+              58,
+              32,
+              34,
+              84,
+              101,
+              115,
+              116,
+              32,
+              83,
+              116,
+              117,
+              100,
+              101,
+              110,
+              116,
+              34,
+              44,
+              10,
+              32,
+              32,
+              34,
+              117,
+              115,
+              101,
+              114,
+              110,
+              97,
+              109,
+              101,
+              34,
+              58,
+              32,
+              34,
+              115,
+              116,
+              117,
+              100,
+              101,
+              110,
+              116,
+              34,
+              44,
+              10,
+              32,
+              32,
+              34,
+              101,
+              109,
+              97,
+              105,
+              108,
+              34,
+              58,
+              32,
+              34,
+              115,
+              116,
+              117,
+              100,
+              101,
+              110,
+              116,
+              64,
+              101,
+              120,
+              97,
+              109,
+              112,
+              108,
+              101,
+              46,
+              99,
+              111,
+              109,
+              34,
+              44,
+              10,
+              32,
+              32,
+              34,
+              105,
+              100,
+              34,
+              58,
+              32,
+              49,
+              49,
+              10,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 164,
+          "responseSize": 99
+        },
+        "id": "72211056-79dc-4353-8d55-212c77bd3add",
+        "testScript": [
+          {
+            "error": {
+              "type": "Error",
+              "name": "SyntaxError",
+              "message": "Identifier 'data' has already been declared",
+              "checksum": "36a30bff55cab1108d3140517a1e4348",
+              "id": "e85edf80-933d-4eba-8247-38dc34a58f8f",
+              "timestamp": 1789748491229,
+              "stacktrace": []
+            }
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "09e8baf3-e045-41d0-abe3-7da7bb10c139",
+          "length": 3,
+          "cycles": 1,
+          "position": 2,
+          "iteration": 0,
+          "httpRequestId": "dc9d1172-f074-450c-a5d9-06bdeaf88bae"
+        },
+        "item": {
+          "id": "23575388-2080-4fc0-bb1b-8c3a235bd562",
+          "name": "PUT — обновить пользователя",
+          "request": {
+            "url": {
+              "path": [
+                "users",
+                "1"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Student\",\n  \"username\": \"student\",\n  \"email\": \"student@example.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "6f49d25d-488b-40f9-a155-e6d0bd5b3a5e",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const data = pm.response.json();",
+                  "pm.test('Updated user structure', () => { pm.expect(data).to.be.an('object'); pm.expect(data.id).to.be.a('number'); pm.expect(data.name).to.be.a('string'); pm.expect(data.username).to.be.a('string'); pm.expect(data.email).to.be.a('string'); });",
+                  "pm.test('Updated user values', () => { pm.expect(data.id).to.eql(1); pm.expect(data.name).to.eql('Updated Student'); pm.expect(data.username).to.eql('student'); pm.expect(data.email).to.eql('student@example.com'); });"
+                ],
+                "_lastExecutionId": "544ac003-0ab5-4d39-9b38-31d1ce5bea67"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "https",
+            "path": [
+              "users",
+              "1"
+            ],
+            "host": [
+              "jsonplaceholder",
+              "typicode",
+              "com"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "dd7a1024-1eb9-482c-88e6-3f811815f1b8",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "jsonplaceholder.typicode.com",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "90",
+              "system": true
+            }
+          ],
+          "method": "PUT",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"name\": \"Updated Student\",\n  \"username\": \"student\",\n  \"email\": \"student@example.com\"\n}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "af3b8df1-42b6-4e2f-8e9a-94e66def618f",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Date",
+              "value": "Fri, 18 Sep 2026 16:21:30 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "access-control-allow-credentials",
+              "value": "true"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache"
+            },
+            {
+              "key": "etag",
+              "value": "W/\"65-DAdw9ruyg0d49sBxVzl0GUlfR0w\""
+            },
+            {
+              "key": "expires",
+              "value": "-1"
+            },
+            {
+              "key": "nel",
+              "value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+            },
+            {
+              "key": "pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "report-to",
+              "value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=9aqt%2BL7t62kVgdKsyjdUHi3Pmv4JW4xuhWSyPMMsWpc%3D\\u0026sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d\\u0026ts=1789748490\"}],\"max_age\":3600}"
+            },
+            {
+              "key": "reporting-endpoints",
+              "value": "heroku-nel=\"https://nel.heroku.com/reports?s=9aqt%2BL7t62kVgdKsyjdUHi3Pmv4JW4xuhWSyPMMsWpc%3D&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&ts=1789748490\""
+            },
+            {
+              "key": "Server",
+              "value": "cloudflare"
+            },
+            {
+              "key": "vary",
+              "value": "Origin, Accept-Encoding"
+            },
+            {
+              "key": "via",
+              "value": "2.0 heroku-router"
+            },
+            {
+              "key": "x-content-type-options",
+              "value": "nosniff"
+            },
+            {
+              "key": "x-powered-by",
+              "value": "Express"
+            },
+            {
+              "key": "x-ratelimit-limit",
+              "value": "1000"
+            },
+            {
+              "key": "x-ratelimit-remaining",
+              "value": "998"
+            },
+            {
+              "key": "x-ratelimit-reset",
+              "value": "1789748531"
+            },
+            {
+              "key": "cf-cache-status",
+              "value": "DYNAMIC"
+            },
+            {
+              "key": "Content-Encoding",
+              "value": "br"
+            },
+            {
+              "key": "CF-RAY",
+              "value": "a3d1af22ec46ef39-LHR"
+            },
+            {
+              "key": "alt-svc",
+              "value": "h3=\":443\"; ma=86400"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              10,
+              32,
+              32,
+              34,
+              110,
+              97,
+              109,
+              101,
+              34,
+              58,
+              32,
+              34,
+              85,
+              112,
+              100,
+              97,
+              116,
+              101,
+              100,
+              32,
+              83,
+              116,
+              117,
+              100,
+              101,
+              110,
+              116,
+              34,
+              44,
+              10,
+              32,
+              32,
+              34,
+              117,
+              115,
+              101,
+              114,
+              110,
+              97,
+              109,
+              101,
+              34,
+              58,
+              32,
+              34,
+              115,
+              116,
+              117,
+              100,
+              101,
+              110,
+              116,
+              34,
+              44,
+              10,
+              32,
+              32,
+              34,
+              101,
+              109,
+              97,
+              105,
+              108,
+              34,
+              58,
+              32,
+              34,
+              115,
+              116,
+              117,
+              100,
+              101,
+              110,
+              116,
+              64,
+              101,
+              120,
+              97,
+              109,
+              112,
+              108,
+              101,
+              46,
+              99,
+              111,
+              109,
+              34,
+              44,
+              10,
+              32,
+              32,
+              34,
+              105,
+              100,
+              34,
+              58,
+              32,
+              49,
+              10,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 315,
+          "responseSize": 101
+        },
+        "id": "23575388-2080-4fc0-bb1b-8c3a235bd562",
+        "testScript": [
+          {
+            "error": {
+              "type": "Error",
+              "name": "SyntaxError",
+              "message": "Identifier 'data' has already been declared",
+              "checksum": "36a30bff55cab1108d3140517a1e4348",
+              "id": "c188fd20-a6b3-4820-9618-19b07d6756af",
+              "timestamp": 1789748491639,
+              "stacktrace": []
+            }
+          }
+        ]
+      }
+    ],
+    "transfers": {
+      "responseTotal": 709
+    },
+    "failures": [
+      {
+        "error": {
+          "type": "Error",
+          "name": "SyntaxError",
+          "message": "Identifier 'data' has already been declared",
+          "checksum": "36a30bff55cab1108d3140517a1e4348",
+          "id": "2a8c66f1-1237-4404-b8bb-746dd080d495",
+          "timestamp": 1789748490969,
+          "stacktrace": []
+        },
+        "at": "test-script",
+        "source": {
+          "id": "773c3c7c-1127-4508-94b9-9b34e3cd9a8c",
+          "name": "GET — получить пользователя",
+          "request": {
+            "url": {
+              "path": [
+                "users",
+                "1"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "7377a477-0caf-4d39-b7b7-d1c06fbfe5fc",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const data = pm.response.json();",
+                  "pm.test('User structure', () => { pm.expect(data).to.be.an('object'); pm.expect(data.name).to.be.a('string').and.not.empty; pm.expect(data.email).to.be.a('string').and.include('@'); pm.expect(data.address).to.be.an('object'); });",
+                  "pm.test('Requested user id', () => pm.expect(data.id).to.eql(1));"
+                ],
+                "_lastExecutionId": "92ae848f-0d8d-4824-8498-fe3e98c3eb97"
+              }
+            }
+          ]
+        },
+        "parent": {
+          "item": [
+            {
+              "id": "773c3c7c-1127-4508-94b9-9b34e3cd9a8c",
+              "name": "GET — получить пользователя",
+              "request": {
+                "url": {
+                  "path": [
+                    "users",
+                    "1"
+                  ],
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET"
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "7377a477-0caf-4d39-b7b7-d1c06fbfe5fc",
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                      "const data = pm.response.json();",
+                      "pm.test('User structure', () => { pm.expect(data).to.be.an('object'); pm.expect(data.name).to.be.a('string').and.not.empty; pm.expect(data.email).to.be.a('string').and.include('@'); pm.expect(data.address).to.be.an('object'); });",
+                      "pm.test('Requested user id', () => pm.expect(data.id).to.eql(1));"
+                    ],
+                    "_lastExecutionId": "92ae848f-0d8d-4824-8498-fe3e98c3eb97"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "72211056-79dc-4353-8d55-212c77bd3add",
+              "name": "POST — создать пользователя",
+              "request": {
+                "url": {
+                  "path": [
+                    "users"
+                  ],
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Test Student\",\n  \"username\": \"student\",\n  \"email\": \"student@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "4af8f2be-ae0d-4acf-acfc-0c2687e7751c",
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                      "const data = pm.response.json();",
+                      "pm.test('Created user structure', () => { pm.expect(data).to.be.an('object'); pm.expect(Number.isInteger(data.id)).to.eql(true); });",
+                      "pm.test('Created user values', () => { pm.expect(data.name).to.eql('Test Student'); pm.expect(data.username).to.eql('student'); pm.expect(data.email).to.eql('student@example.com'); });"
+                    ],
+                    "_lastExecutionId": "e59c0327-67fa-4082-82e9-0733ea9a7ebb"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "23575388-2080-4fc0-bb1b-8c3a235bd562",
+              "name": "PUT — обновить пользователя",
+              "request": {
+                "url": {
+                  "path": [
+                    "users",
+                    "1"
+                  ],
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Updated Student\",\n  \"username\": \"student\",\n  \"email\": \"student@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "6f49d25d-488b-40f9-a155-e6d0bd5b3a5e",
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                      "const data = pm.response.json();",
+                      "pm.test('Updated user structure', () => { pm.expect(data).to.be.an('object'); pm.expect(data.id).to.be.a('number'); pm.expect(data.name).to.be.a('string'); pm.expect(data.username).to.be.a('string'); pm.expect(data.email).to.be.a('string'); });",
+                      "pm.test('Updated user values', () => { pm.expect(data.id).to.eql(1); pm.expect(data.name).to.eql('Updated Student'); pm.expect(data.username).to.eql('student'); pm.expect(data.email).to.eql('student@example.com'); });"
+                    ],
+                    "_lastExecutionId": "544ac003-0ab5-4d39-9b38-31d1ce5bea67"
+                  }
+                }
+              ]
+            }
+          ],
+          "event": [],
+          "variable": [],
+          "info": {
+            "_postman_id": "18b6bdaa-e462-4048-bf8e-ab52dd935a0f",
+            "name": "ЛР 5 — REST API",
+            "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+            "description": {
+              "content": "GET, POST, PUT и проверки ответов. Запись в JSONPlaceholder имитируется.",
+              "type": "text/plain"
+            }
+          }
+        },
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 3,
+          "cycles": 1,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "fafa1822-9618-404b-89a2-ebe19334dce5",
+          "httpRequestId": "ac5d0c36-eb88-4c6d-853e-f56dfc3b31b0",
+          "scriptId": "7377a477-0caf-4d39-b7b7-d1c06fbfe5fc"
+        }
+      },
+      {
+        "error": {
+          "type": "Error",
+          "name": "SyntaxError",
+          "message": "Identifier 'data' has already been declared",
+          "checksum": "36a30bff55cab1108d3140517a1e4348",
+          "id": "e85edf80-933d-4eba-8247-38dc34a58f8f",
+          "timestamp": 1789748491229,
+          "stacktrace": []
+        },
+        "at": "test-script",
+        "source": {
+          "id": "72211056-79dc-4353-8d55-212c77bd3add",
+          "name": "POST — создать пользователя",
+          "request": {
+            "url": {
+              "path": [
+                "users"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test Student\",\n  \"username\": \"student\",\n  \"email\": \"student@example.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "4af8f2be-ae0d-4acf-acfc-0c2687e7751c",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "const data = pm.response.json();",
+                  "pm.test('Created user structure', () => { pm.expect(data).to.be.an('object'); pm.expect(Number.isInteger(data.id)).to.eql(true); });",
+                  "pm.test('Created user values', () => { pm.expect(data.name).to.eql('Test Student'); pm.expect(data.username).to.eql('student'); pm.expect(data.email).to.eql('student@example.com'); });"
+                ],
+                "_lastExecutionId": "e59c0327-67fa-4082-82e9-0733ea9a7ebb"
+              }
+            }
+          ]
+        },
+        "parent": {
+          "item": [
+            {
+              "id": "773c3c7c-1127-4508-94b9-9b34e3cd9a8c",
+              "name": "GET — получить пользователя",
+              "request": {
+                "url": {
+                  "path": [
+                    "users",
+                    "1"
+                  ],
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET"
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "7377a477-0caf-4d39-b7b7-d1c06fbfe5fc",
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                      "const data = pm.response.json();",
+                      "pm.test('User structure', () => { pm.expect(data).to.be.an('object'); pm.expect(data.name).to.be.a('string').and.not.empty; pm.expect(data.email).to.be.a('string').and.include('@'); pm.expect(data.address).to.be.an('object'); });",
+                      "pm.test('Requested user id', () => pm.expect(data.id).to.eql(1));"
+                    ],
+                    "_lastExecutionId": "92ae848f-0d8d-4824-8498-fe3e98c3eb97"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "72211056-79dc-4353-8d55-212c77bd3add",
+              "name": "POST — создать пользователя",
+              "request": {
+                "url": {
+                  "path": [
+                    "users"
+                  ],
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Test Student\",\n  \"username\": \"student\",\n  \"email\": \"student@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "4af8f2be-ae0d-4acf-acfc-0c2687e7751c",
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                      "const data = pm.response.json();",
+                      "pm.test('Created user structure', () => { pm.expect(data).to.be.an('object'); pm.expect(Number.isInteger(data.id)).to.eql(true); });",
+                      "pm.test('Created user values', () => { pm.expect(data.name).to.eql('Test Student'); pm.expect(data.username).to.eql('student'); pm.expect(data.email).to.eql('student@example.com'); });"
+                    ],
+                    "_lastExecutionId": "e59c0327-67fa-4082-82e9-0733ea9a7ebb"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "23575388-2080-4fc0-bb1b-8c3a235bd562",
+              "name": "PUT — обновить пользователя",
+              "request": {
+                "url": {
+                  "path": [
+                    "users",
+                    "1"
+                  ],
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Updated Student\",\n  \"username\": \"student\",\n  \"email\": \"student@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "6f49d25d-488b-40f9-a155-e6d0bd5b3a5e",
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                      "const data = pm.response.json();",
+                      "pm.test('Updated user structure', () => { pm.expect(data).to.be.an('object'); pm.expect(data.id).to.be.a('number'); pm.expect(data.name).to.be.a('string'); pm.expect(data.username).to.be.a('string'); pm.expect(data.email).to.be.a('string'); });",
+                      "pm.test('Updated user values', () => { pm.expect(data.id).to.eql(1); pm.expect(data.name).to.eql('Updated Student'); pm.expect(data.username).to.eql('student'); pm.expect(data.email).to.eql('student@example.com'); });"
+                    ],
+                    "_lastExecutionId": "544ac003-0ab5-4d39-9b38-31d1ce5bea67"
+                  }
+                }
+              ]
+            }
+          ],
+          "event": [],
+          "variable": [],
+          "info": {
+            "_postman_id": "18b6bdaa-e462-4048-bf8e-ab52dd935a0f",
+            "name": "ЛР 5 — REST API",
+            "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+            "description": {
+              "content": "GET, POST, PUT и проверки ответов. Запись в JSONPlaceholder имитируется.",
+              "type": "text/plain"
+            }
+          }
+        },
+        "cursor": {
+          "ref": "a5ff2f04-197a-4f0e-8b7e-354939e078fa",
+          "length": 3,
+          "cycles": 1,
+          "position": 1,
+          "iteration": 0,
+          "httpRequestId": "f3f41a14-becb-48d1-afec-db5af4894618",
+          "scriptId": "4af8f2be-ae0d-4acf-acfc-0c2687e7751c"
+        }
+      },
+      {
+        "error": {
+          "type": "Error",
+          "name": "SyntaxError",
+          "message": "Identifier 'data' has already been declared",
+          "checksum": "36a30bff55cab1108d3140517a1e4348",
+          "id": "c188fd20-a6b3-4820-9618-19b07d6756af",
+          "timestamp": 1789748491639,
+          "stacktrace": []
+        },
+        "at": "test-script",
+        "source": {
+          "id": "23575388-2080-4fc0-bb1b-8c3a235bd562",
+          "name": "PUT — обновить пользователя",
+          "request": {
+            "url": {
+              "path": [
+                "users",
+                "1"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Student\",\n  \"username\": \"student\",\n  \"email\": \"student@example.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "6f49d25d-488b-40f9-a155-e6d0bd5b3a5e",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const data = pm.response.json();",
+                  "pm.test('Updated user structure', () => { pm.expect(data).to.be.an('object'); pm.expect(data.id).to.be.a('number'); pm.expect(data.name).to.be.a('string'); pm.expect(data.username).to.be.a('string'); pm.expect(data.email).to.be.a('string'); });",
+                  "pm.test('Updated user values', () => { pm.expect(data.id).to.eql(1); pm.expect(data.name).to.eql('Updated Student'); pm.expect(data.username).to.eql('student'); pm.expect(data.email).to.eql('student@example.com'); });"
+                ],
+                "_lastExecutionId": "544ac003-0ab5-4d39-9b38-31d1ce5bea67"
+              }
+            }
+          ]
+        },
+        "parent": {
+          "item": [
+            {
+              "id": "773c3c7c-1127-4508-94b9-9b34e3cd9a8c",
+              "name": "GET — получить пользователя",
+              "request": {
+                "url": {
+                  "path": [
+                    "users",
+                    "1"
+                  ],
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET"
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "7377a477-0caf-4d39-b7b7-d1c06fbfe5fc",
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                      "const data = pm.response.json();",
+                      "pm.test('User structure', () => { pm.expect(data).to.be.an('object'); pm.expect(data.name).to.be.a('string').and.not.empty; pm.expect(data.email).to.be.a('string').and.include('@'); pm.expect(data.address).to.be.an('object'); });",
+                      "pm.test('Requested user id', () => pm.expect(data.id).to.eql(1));"
+                    ],
+                    "_lastExecutionId": "92ae848f-0d8d-4824-8498-fe3e98c3eb97"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "72211056-79dc-4353-8d55-212c77bd3add",
+              "name": "POST — создать пользователя",
+              "request": {
+                "url": {
+                  "path": [
+                    "users"
+                  ],
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Test Student\",\n  \"username\": \"student\",\n  \"email\": \"student@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "4af8f2be-ae0d-4acf-acfc-0c2687e7751c",
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                      "const data = pm.response.json();",
+                      "pm.test('Created user structure', () => { pm.expect(data).to.be.an('object'); pm.expect(Number.isInteger(data.id)).to.eql(true); });",
+                      "pm.test('Created user values', () => { pm.expect(data.name).to.eql('Test Student'); pm.expect(data.username).to.eql('student'); pm.expect(data.email).to.eql('student@example.com'); });"
+                    ],
+                    "_lastExecutionId": "e59c0327-67fa-4082-82e9-0733ea9a7ebb"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "23575388-2080-4fc0-bb1b-8c3a235bd562",
+              "name": "PUT — обновить пользователя",
+              "request": {
+                "url": {
+                  "path": [
+                    "users",
+                    "1"
+                  ],
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Updated Student\",\n  \"username\": \"student\",\n  \"email\": \"student@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "6f49d25d-488b-40f9-a155-e6d0bd5b3a5e",
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                      "const data = pm.response.json();",
+                      "pm.test('Updated user structure', () => { pm.expect(data).to.be.an('object'); pm.expect(data.id).to.be.a('number'); pm.expect(data.name).to.be.a('string'); pm.expect(data.username).to.be.a('string'); pm.expect(data.email).to.be.a('string'); });",
+                      "pm.test('Updated user values', () => { pm.expect(data.id).to.eql(1); pm.expect(data.name).to.eql('Updated Student'); pm.expect(data.username).to.eql('student'); pm.expect(data.email).to.eql('student@example.com'); });"
+                    ],
+                    "_lastExecutionId": "544ac003-0ab5-4d39-9b38-31d1ce5bea67"
+                  }
+                }
+              ]
+            }
+          ],
+          "event": [],
+          "variable": [],
+          "info": {
+            "_postman_id": "18b6bdaa-e462-4048-bf8e-ab52dd935a0f",
+            "name": "ЛР 5 — REST API",
+            "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+            "description": {
+              "content": "GET, POST, PUT и проверки ответов. Запись в JSONPlaceholder имитируется.",
+              "type": "text/plain"
+            }
+          }
+        },
+        "cursor": {
+          "ref": "09e8baf3-e045-41d0-abe3-7da7bb10c139",
+          "length": 3,
+          "cycles": 1,
+          "position": 2,
+          "iteration": 0,
+          "httpRequestId": "dc9d1172-f074-450c-a5d9-06bdeaf88bae",
+          "scriptId": "6f49d25d-488b-40f9-a155-e6d0bd5b3a5e"
+        }
+      }
+    ],
+    "error": null
+  }
+}

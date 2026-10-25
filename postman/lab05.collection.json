@@ -1,0 +1,103 @@
+{
+  "info": {
+    "name": "ЛР 5 — REST API",
+    "description": "GET, POST, PUT и проверки ответов. Запись в JSONPlaceholder имитируется.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET — получить пользователя",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/users/1"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200', () => pm.response.to.have.status(200));",
+              "const responseBody = pm.response.json();",
+              "pm.test('User structure', () => { pm.expect(responseBody).to.be.an('object'); pm.expect(responseBody.name).to.be.a('string').and.not.empty; pm.expect(responseBody.email).to.be.a('string').and.include('@'); pm.expect(responseBody.address).to.be.an('object'); });",
+              "pm.test('Requested user id', () => pm.expect(responseBody.id).to.eql(1));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST — создать пользователя",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/users",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Test Student\",\n  \"username\": \"student\",\n  \"email\": \"student@example.com\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 201', () => pm.response.to.have.status(201));",
+              "const responseBody = pm.response.json();",
+              "pm.test('Created user structure', () => { pm.expect(responseBody).to.be.an('object'); pm.expect(Number.isInteger(responseBody.id)).to.eql(true); });",
+              "pm.test('Created user values', () => { pm.expect(responseBody.name).to.eql('Test Student'); pm.expect(responseBody.username).to.eql('student'); pm.expect(responseBody.email).to.eql('student@example.com'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "PUT — обновить пользователя",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/users/1",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Updated Student\",\n  \"username\": \"student\",\n  \"email\": \"student@example.com\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200', () => pm.response.to.have.status(200));",
+              "const responseBody = pm.response.json();",
+              "pm.test('Updated user structure', () => { pm.expect(responseBody).to.be.an('object'); pm.expect(responseBody.id).to.be.a('number'); pm.expect(responseBody.name).to.be.a('string'); pm.expect(responseBody.username).to.be.a('string'); pm.expect(responseBody.email).to.be.a('string'); });",
+              "pm.test('Updated user values', () => { pm.expect(responseBody.id).to.eql(1); pm.expect(responseBody.name).to.eql('Updated Student'); pm.expect(responseBody.username).to.eql('student'); pm.expect(responseBody.email).to.eql('student@example.com'); });"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

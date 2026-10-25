@@ -1,0 +1,30 @@
+{% extends 'base.html' %}{% block title %}Контактная форма{% endblock %}
+{% block content %}<p class="eyebrow">МОДУЛЬ 04 / ЛР 4</p><h1>Контактная форма</h1><p class="lead">Проверьте валидные
+    данные и сообщения об ошибках.</p>
+<div class="two-col">
+    <section class="panel">
+        {% if success %}<p id="contact-success" class="success" role="status">Форма успешно отправлена.</p>{% endif %}
+        <form id="contact-form" method="post" novalidate>
+            {% for key, label in [('name','Имя'),('email','Email'),('message','Сообщение')] %}
+            <label for="{{ key }}">{{ label }} <span class="muted">(обязательно)</span></label>
+            {% if key == 'message' %}<textarea id="{{ key }}" name="{{ key }}" rows="5"
+                                               aria-describedby="{{ key }}-error"
+                                               aria-invalid="{{ 'true' if errors.get(key) else 'false' }}">{{ values[key] }}</textarea>{%
+            else %}<input id="{{ key }}" name="{{ key }}" type="{{ 'email' if key == 'email' else 'text' }}"
+                          value="{{ values[key] }}" aria-describedby="{{ key }}-error"
+                          aria-invalid="{{ 'true' if errors.get(key) else 'false' }}">{% endif %}
+            <p id="{{ key }}-error" class="error" {% if errors.get(key) %}role="alert" {% endif %}>{{ errors.get(key,
+                '') }}</p>
+            {% endfor %}
+            <button id="contact-submit">Отправить</button>
+        </form>
+    </section>
+    <aside class="notes"><span class="tag">Правила заполнения</span>
+        <h2>Три обязательных поля</h2>
+        <ul>
+            <li>Имя: от 2 до 60 символов.</li>
+            <li>Email: адрес с @ и точкой в домене, не более 120 символов.</li>
+            <li>Сообщение: от 10 до 1000 символов.</li>
+        </ul>
+        <p>Пробелы по краям удаляются. Это учебная форма: письма не отправляются, данные не сохраняются.</p></aside>
+</div>{% endblock %}

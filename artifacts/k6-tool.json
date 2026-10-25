@@ -1,0 +1,4 @@
+{
+  "k6": "v2.2.0",
+  "source": "https://github.com/grafana/k6/releases/download/v2.2.0/k6-v2.2.0-windows-amd64.zip"
+}

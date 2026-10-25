@@ -1,0 +1,11 @@
+.venv/
+.idea/
+__pycache__/
+.pytest_cache/
+*.pyc
+.env
+tools/bin/
+node_modules/
+artifacts/**/*.png
+artifacts/**/*.xml
+artifacts/**/*.log

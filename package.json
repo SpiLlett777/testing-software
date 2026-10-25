@@ -1,0 +1,10 @@
+{
+  "name": "api-collection",
+  "private": true,
+  "scripts": {
+    "postman": "newman run postman/lab05.collection.json -e postman/lab05.environment.json --reporters cli,json --reporter-json-export artifacts/lab05/newman.json"
+  },
+  "devDependencies": {
+    "newman": "6.2.2"
+  }
+}

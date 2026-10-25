@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Список задач{% endblock %}
+
+{% block content %}
+<p class="eyebrow">Модуль 02 / Лабораторная работа №2</p>
+<h1>Список задач</h1>
+<p class="lead">Интерфейс для управления персональными задачами, изменения их статуса и проверки корректности работы
+    фильтров.</p>
+
+<div class="mode-bar">
+    <span class="tag {{ 'warning' if buggy else '' }}">
+        {{ 'Режим с намеренными дефектами' if buggy else 'Стабильная версия' }}
+    </span>
+    <a id="switch-mode" href="/todo{{ '' if buggy else '?mode=buggy' }}">
+        {{ 'Перейти к стабильной версии' if buggy else 'Перейти к режиму с ошибками' }}
+    </a>
+</div>
+
+<section class="panel" id="todo-app" data-buggy="{{ 'true' if buggy else 'false' }}">
+    <form id="todo-form" novalidate>
+        <label for="task-title">Новая задача</label>
+
+        <div class="inline">
+            <input id="task-title" name="title" maxlength="120" placeholder="Что необходимо сделать?"
+                   autocomplete="off">
+            <button id="add-task">Добавить</button>
+        </div>
+    </form>
+
+    <p id="todo-error" class="error" role="alert"></p>
+
+    <div class="list-toolbar">
+        <div class="filters" aria-label="Фильтрация задач">
+            <button class="filter" data-filter="all" aria-pressed="true">Все</button>
+            <button class="filter" data-filter="active" aria-pressed="false">Активные</button>
+            <button class="filter" data-filter="done" aria-pressed="false">Выполненные</button>
+        </div>
+
+        <span id="task-counter" aria-live="polite"></span>
+    </div>
+
+    <ul id="task-list" class="task-list"></ul>
+
+    <p id="empty-tasks" class="empty">Список пуст. Вы можете добавить первую задачу с помощью формы выше.</p>
+
+    <button id="reset-tasks" class="secondary">Очистить список</button>
+</section>
+
+<p class="muted">Записи сохраняются в локальном хранилище вашего браузера. Для каждого режима создается изолированный
+    список задач.</p>
+{% endblock %}

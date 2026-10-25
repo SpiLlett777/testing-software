@@ -1,0 +1,5 @@
+{
+  "chrome": "153.0.8010.48",
+  "chromedriver": "153.0.8010.52",
+  "source": "https://storage.googleapis.com/chrome-for-testing-public/153.0.8010.52/win64/chromedriver-win64.zip"
+}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+<p class="eyebrow">Модуль 03 / Лабораторная работа №3</p>
+<h1>Вход в систему</h1>
+<p class="lead">Раздел предназначен для тестирования сценариев авторизации и проверки надежности используемых локаторов
+    элементов.</p>
+
+<div class="two-col">
+    <section class="panel">
+        <h2>Учебная учетная запись</h2>
+
+        <form method="post" novalidate>
+            <label for="username">Логин</label>
+            <input id="username" name="username" autocomplete="username">
+
+            <label for="password">Пароль</label>
+            <input id="password" name="password" type="password" autocomplete="current-password">
+
+            <button id="login-submit">Войти</button>
+        </form>
+
+        {% if error %}
+        <p id="login-error" class="error" role="alert">{{ error }}</p>
+        {% endif %}
+    </section>
+
+    <aside class="notes">
+        <span class="tag">Тестовые данные</span>
+        <h2>Учетные данные для входа</h2>
+
+        <p>
+            <strong>Логин:</strong> <code>student</code><br>
+            <strong>Пароль:</strong> <code>Test123!</code>
+        </p>
+
+        <p>После успешной аутентификации откроется личный кабинет с возможностью завершения текущей сессии.</p>
+    </aside>
+</div>
+{% endblock %}

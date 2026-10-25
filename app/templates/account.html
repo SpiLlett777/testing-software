@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+{% block content %}
+<p class="eyebrow">МОДУЛЬ 03 / АВТОРИЗАЦИЯ</p>
+<h1 id="welcome">Добро пожаловать, student!</h1>
+
+<section class="panel">
+    <p id="login-success" class="success">Вход выполнен успешно.</p>
+    <p>Защищенная страница доступна до выхода из сессии.</p>
+
+    <form action="/logout" method="post">
+        <button id="logout">Logout</button>
+    </form>
+</section>
+{% endblock %}
